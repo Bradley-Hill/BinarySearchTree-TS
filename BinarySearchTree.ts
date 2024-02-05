@@ -2,6 +2,7 @@ import { TreeNode, createTreeNode } from "./nodeFactory";
 
 interface binaryTree {
   root: TreeNode | null;
+  prettyPrint: (node: TreeNode, prefix?: string, isLeft?: boolean) => void;
 }
 
 function createBinaryTree(array: number[]): binaryTree {
@@ -13,7 +14,24 @@ function createBinaryTree(array: number[]): binaryTree {
 
   let root = constructBinarySearchTree(uniqueArray, 0, uniqueArray.length - 1);
 
-  return { root };
+  let prettyPrint = function (
+    node: TreeNode = root,
+    prefix: string = "",
+    isLeft: boolean = true
+  ) {
+    if (node === null) {
+      return;
+    }
+    if (node.right !== null) {
+      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.content}`);
+    if (node.left !== null) {
+      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    }
+  };
+
+  return { root, prettyPrint };
 
   function constructBinarySearchTree(array, start, end): TreeNode | null {
     if (start > end) {
@@ -30,18 +48,5 @@ function createBinaryTree(array: number[]): binaryTree {
   }
 }
 
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.content}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
 let tree = createBinaryTree([3, 7, 25, 9, 2, 67, 54, 16, 33, 125, 57, 42, 32]);
-prettyPrint(tree.root);
+tree.prettyPrint(tree.root);
