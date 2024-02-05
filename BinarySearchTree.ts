@@ -3,6 +3,9 @@ import { TreeNode, createTreeNode } from "./nodeFactory";
 interface binaryTree {
   root: TreeNode | null;
   prettyPrint: (node: TreeNode, prefix?: string, isLeft?: boolean) => void;
+  insert: (content: number) => void;
+  remove: (content: number) => void;
+  find: (content: number) => TreeNode;
 }
 
 function createBinaryTree(array: number[]): binaryTree {
@@ -31,7 +34,92 @@ function createBinaryTree(array: number[]): binaryTree {
     }
   };
 
-  return { root, prettyPrint };
+  let insert = function (content: number) {
+    root = insertAtNode(root, content);
+  };
+
+  // helper function to traverse tree and find leaf to insert new content
+  function insertAtNode(node: TreeNode | null, content: number): TreeNode {
+    if (node === null) {
+      return createTreeNode(content, null, null);
+    } else {
+      if (content < node.content) {
+        node.left = insertAtNode(node.left, content);
+      } else if (content > node.content) {
+        node.right = insertAtNode(node.right, content);
+      } else {
+        return node;
+      }
+      return node;
+    }
+  }
+
+  let remove = function (content: number) {
+    root = removeAtNode(root, content);
+  };
+
+  function removeAtNode(node: TreeNode, content: number): TreeNode | null {
+    if (node === null) {
+      return null;
+    } else {
+      if (content < node.content) {
+        node.left = removeAtNode(node.left, content);
+      } else if (content > node.content) {
+        node.right = removeAtNode(node.right, content);
+      } else {
+        // the node to be removed has no children
+        if (node.left === null && node.right === null) {
+          return null;
+        }
+        // the node has one child
+        else if (node.left === null) {
+          return node.right;
+        } else if (node.right === null) {
+          return node.left;
+        }
+        //the node to be removed has two children
+        else {
+          let replacement = findMinNode(node.right);
+          node.content = replacement.content;
+          node.right = removeAtNode(node.right, replacement.content);
+        }
+      }
+      return node;
+    }
+  }
+
+  //helper function for remove method - finding smallest node of subtree
+  function findMinNode(node: TreeNode | null): TreeNode {
+    if (node === null) {
+      return null;
+    } else if (node.left === null) {
+      return node;
+    } else {
+      return findMinNode(node.left);
+    }
+  }
+
+  let find = (content: number): TreeNode => {
+    return findAtNode(content, root);
+  };
+
+  function findAtNode(content: number, node: TreeNode): TreeNode {
+    if (content === null || content === undefined) {
+      throw new Error("You have to search for a valid value in the tree.");
+    } else {
+      if (node === null) {
+        throw new Error("The Binary Tree is empty");
+      } else if (content < node.content) {
+        return findAtNode(content, node.left);
+      } else if (content > node.content) {
+        return findAtNode(content, node.right);
+      } else {
+        return node;
+      }
+    }
+  }
+
+  return { root, prettyPrint, insert, remove, find };
 
   function constructBinarySearchTree(array, start, end): TreeNode | null {
     if (start > end) {
