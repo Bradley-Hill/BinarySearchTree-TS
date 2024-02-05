@@ -5,6 +5,9 @@ interface binaryTree {
 }
 
 function createBinaryTree(array: number[]): binaryTree {
+  if (!array || array.length === 0) {
+    throw new Error("Input array is null,undefined or otherwise empty.");
+  }
   let sortedArray = array.sort((a, b) => a - b);
   let uniqueArray = [...new Set(sortedArray)];
 
