@@ -7,6 +7,7 @@ interface binaryTree {
   remove: (content: number) => void;
   find: (content: number) => TreeNode;
   levelOrder: (callback?: (node: number) => void) => Array<number>;
+  inOrder: (callback?: (node: number) => void) => Array<number>;
 }
 
 function createBinaryTree(array: number[]): binaryTree {
@@ -170,7 +171,21 @@ function createBinaryTree(array: number[]): binaryTree {
     return resultArray;
   };
 
-  return { root, prettyPrint, insert, remove, find, levelOrder };
+  let inOrder = (callback: Function): Array<number> => {
+    let currentNode = root;
+    let inOrderArray = [];
+
+    if (currentNode.left !== null) {
+      currentNode = currentNode.left;
+      if (callback) {
+        callback(currentNode.content);
+      } else {
+        inOrderArray.push(currentNode.content);
+      }
+    }
+  };
+
+  return { root, prettyPrint, insert, remove, find, levelOrder, inOrder };
 
   function constructBinarySearchTree(array, start, end): TreeNode | null {
     if (start > end) {
