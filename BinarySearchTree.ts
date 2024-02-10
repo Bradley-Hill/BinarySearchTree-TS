@@ -119,17 +119,54 @@ function createBinaryTree(array: number[]): binaryTree {
       }
     }
   }
+  // Recursive version of the levelOrder method, more memory intensive than iterative method.
+
+  // let levelOrder = (callback: Function): Array<number> => {
+  //   let queueOfOperations = [root];
+  //   let resultArray = [];
+
+  //   function levelOrderTraversal(queueOfOperations, resultArray) {
+  //     if (queueOfOperations.length === 0) {
+  //       return resultArray;
+  //     } else {
+  //       let currentNode = queueOfOperations.shift();
+  //       if(callback){
+  //         callback(currentNode.content);
+  //       }
+  //       resultArray.push(currentNode.content);
+
+  //       if (currentNode.left !== null) {
+  //         queueOfOperations.push(currentNode.left);
+  //       }
+  //       if (currentNode.right !== null) {
+  //         queueOfOperations.push(currentNode.right);
+  //       }
+  //     }
+
+  //     return levelOrderTraversal(queueOfOperations, resultArray);
+  //   }
+  //   return levelOrderTraversal(queueOfOperations, resultArray);
+  // };
 
   let levelOrder = (callback: Function): Array<number> => {
     let queueOfOperations = [root];
     let resultArray = [];
 
-    function levelOrderTraversal(queueOfOperations, resultArray) {
-      if (queueOfOperations.length === 0) {
-        return resultArray;
-      } else {
+    while (queueOfOperations.length > 0) {
+      let currentNode = queueOfOperations.shift();
+      if (callback) {
+        callback(currentNode.content);
+      }
+      resultArray.push(currentNode.content);
+
+      if (currentNode.left !== null) {
+        queueOfOperations.push(currentNode.left);
+      }
+      if (currentNode.right !== null) {
+        queueOfOperations.push(currentNode.right);
       }
     }
+
     return resultArray;
   };
 
