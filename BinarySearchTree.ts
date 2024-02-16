@@ -175,14 +175,19 @@ function createBinaryTree(array: number[]): binaryTree {
     let currentNode = root;
     let inOrderArray = [];
 
-    if (currentNode.left !== null) {
-      currentNode = currentNode.left;
-      if (callback) {
-        callback(currentNode.content);
-      } else {
-        inOrderArray.push(currentNode.content);
+    function traverseInOrder(node: TreeNode | null) {
+      if (node.left !== null) {
+        traverseInOrder(node.left);
+        if (callback) {
+          callback(node.content);
+        } else {
+          inOrderArray.push(node.content);
+        }
+        traverseInOrder(node.right);
       }
     }
+    traverseInOrder(currentNode);
+    return inOrderArray;
   };
 
   return { root, prettyPrint, insert, remove, find, levelOrder, inOrder };
