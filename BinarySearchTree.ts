@@ -8,6 +8,8 @@ interface binaryTree {
   find: (content: number) => TreeNode;
   levelOrder: (callback?: (node: number) => void) => Array<number>;
   inOrder: (callback?: (node: number) => void) => Array<number>;
+  preOrder: (callback?: (node: number) => void) => Array<number>;
+  postOrder: (callback?: (node: number) => void) => Array<number>;
 }
 
 function createBinaryTree(array: number[]): binaryTree {
@@ -190,7 +192,55 @@ function createBinaryTree(array: number[]): binaryTree {
     return inOrderArray;
   };
 
-  return { root, prettyPrint, insert, remove, find, levelOrder, inOrder };
+  let preOrder = (callback?: (node: number) => void): Array<number> => {
+    let currentNode = root;
+    let preOrderArray = [];
+
+    function traversePreOrder(node: TreeNode | null) {
+      if (node !== null) {
+        if (callback) {
+          callback(node.content);
+        } else {
+          preOrderArray.push(node.content);
+        }
+        traversePreOrder(node.left);
+        traversePreOrder(node.right);
+      }
+    }
+    traversePreOrder(currentNode);
+    return preOrderArray;
+  };
+
+  let postOrder = (callback?: (node: number) => void): Array<number> => {
+    let currentNode = root;
+    let postOrderArray = [];
+
+    function traversePostOrder(node: TreeNode | null) {
+      if (node !== null) {
+        traversePostOrder(node.left);
+        traversePostOrder(node.right);
+        if (callback) {
+          callback(node.content);
+        } else {
+          postOrderArray.push(node.content);
+        }
+      }
+    }
+    traversePostOrder(currentNode);
+    return postOrderArray;
+  };
+
+  return {
+    root,
+    prettyPrint,
+    insert,
+    remove,
+    find,
+    levelOrder,
+    inOrder,
+    preOrder,
+    postOrder,
+  };
 
   function constructBinarySearchTree(array, start, end): TreeNode | null {
     if (start > end) {
