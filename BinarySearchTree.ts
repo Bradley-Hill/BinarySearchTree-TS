@@ -10,6 +10,8 @@ interface binaryTree {
   inOrder: (callback?: (node: number) => void) => Array<number>;
   preOrder: (callback?: (node: number) => void) => Array<number>;
   postOrder: (callback?: (node: number) => void) => Array<number>;
+  height: (node: TreeNode) => number;
+  depth: (node: TreeNode) => number;
 }
 
 function createBinaryTree(array: number[]): binaryTree {
@@ -178,7 +180,7 @@ function createBinaryTree(array: number[]): binaryTree {
     let inOrderArray = [];
 
     function traverseInOrder(node: TreeNode | null) {
-      if (node.left !== null) {
+      if (node !== null) {
         traverseInOrder(node.left);
         if (callback) {
           callback(node.content);
@@ -230,6 +232,23 @@ function createBinaryTree(array: number[]): binaryTree {
     return postOrderArray;
   };
 
+  let height = (node: TreeNode) => {
+    function traverseHeight(node: TreeNode | null): number {
+      if (node === null) {
+        return -1;
+      } else {
+        let leftHeight = traverseHeight(node.left);
+        let rightHeight = traverseHeight(node.right);
+        return Math.max(leftHeight, rightHeight) + 1;
+      }
+    }
+    return traverseHeight(node);
+  };
+
+  let depth = (node: TreeNode) => {
+    let currentNode = root;
+  };
+
   return {
     root,
     prettyPrint,
@@ -240,6 +259,8 @@ function createBinaryTree(array: number[]): binaryTree {
     inOrder,
     preOrder,
     postOrder,
+    height,
+    depth,
   };
 
   function constructBinarySearchTree(array, start, end): TreeNode | null {
