@@ -1,7 +1,8 @@
 import { TreeNode, createTreeNode } from "./nodeFactory";
 
-interface binaryTree {
+interface BinaryTree {
   root: TreeNode | null;
+  setRoot: (root: TreeNode) => void;
   prettyPrint: (node: TreeNode, prefix?: string, isLeft?: boolean) => void;
   insert: (content: number) => void;
   remove: (content: number) => void;
@@ -12,10 +13,11 @@ interface binaryTree {
   postOrder: (callback?: (node: number) => void) => Array<number>;
   height: (node: TreeNode) => number;
   depth: (node: TreeNode) => number;
-  isBalanced: (node: TreeNode | null) => boolean;
+  isBalanced: (binaryTree: BinaryTree) => boolean;
+  rebalance: (binaryTree: BinaryTree) => void;
 }
 
-function createBinaryTree(array: number[]): binaryTree {
+function createBinaryTree(array: number[]): BinaryTree {
   if (!array || array.length === 0) {
     throw new Error("Input array is null,undefined or otherwise empty.");
   }
@@ -23,6 +25,10 @@ function createBinaryTree(array: number[]): binaryTree {
   let uniqueArray = [...new Set(sortedArray)];
 
   let root = constructBinarySearchTree(uniqueArray, 0, uniqueArray.length - 1);
+
+  let setRoot = function (newRoot: TreeNode) {
+    root = newRoot;
+  };
 
   let prettyPrint = function (
     node: TreeNode = root,
@@ -267,7 +273,10 @@ function createBinaryTree(array: number[]): binaryTree {
     throw new Error("Node not found in this tree.");
   };
 
-  let isBalanced = (node: TreeNode | null): boolean => {
+  let isBalanced = (tree: BinaryTree): boolean => {
+    return checkBalance(tree.root);
+  };
+  let checkBalance = (node: TreeNode | null): boolean => {
     if (node === null) {
       return true;
     }
@@ -278,12 +287,22 @@ function createBinaryTree(array: number[]): binaryTree {
     if (Math.abs(leftHeight - rightHeight) > 1) {
       return false;
     } else {
-      return isBalanced(node.left) && isBalanced(node.right);
+      return checkBalance(node.left) && checkBalance(node.right);
     }
+  };
+
+  let rebalance = (binaryTree) => {
+    let sortedArray = binaryTree.inOrder();
+    binaryTree.root = constructBinarySearchTree(
+      sortedArray,
+      0,
+      sortedArray.length - 1
+    );
   };
 
   return {
     root,
+    setRoot,
     prettyPrint,
     insert,
     remove,
@@ -295,6 +314,7 @@ function createBinaryTree(array: number[]): binaryTree {
     height,
     depth,
     isBalanced,
+    rebalance,
   };
 
   function constructBinarySearchTree(array, start, end): TreeNode | null {
@@ -352,4 +372,13 @@ console.log("Depth of node with content 25:");
 console.log(tree.depth(tree.find(25)));
 
 console.log("Is tree balanced?");
-console.log(tree.isBalanced(tree.root));
+console.log(tree.isBalanced(tree));
+
+console.log("Rebalance tree");
+tree.rebalance(tree);
+
+console.log("New balanced tree:");
+tree.prettyPrint(tree.root);
+
+console.log("Is tree balanced?");
+console.log(tree.isBalanced(tree));
