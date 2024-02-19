@@ -336,49 +336,49 @@ let tree = createBinaryTree([3, 7, 25, 9, 2, 67, 54, 16, 33, 125, 57, 42, 32]);
 tree.prettyPrint(tree.root);
 
 //Testing Tree methods in console
-console.log("Initial tree:");
-tree.prettyPrint(tree.root);
+// console.log("Initial tree:");
+// tree.prettyPrint(tree.root);
 
-console.log("Inserting entries:");
-tree.insert(255);
-tree.insert(257);
-tree.insert(2567);
-tree.insert(254);
-tree.prettyPrint(tree.root);
+// console.log("Inserting entries:");
+// tree.insert(255);
+// tree.insert(257);
+// tree.insert(2567);
+// tree.insert(254);
+// tree.prettyPrint(tree.root);
 
-console.log("Removing 7:");
-tree.remove(7);
-tree.prettyPrint(tree.root);
+// console.log("Removing 7:");
+// tree.remove(7);
+// tree.prettyPrint(tree.root);
 
-console.log("Finding 25:");
-console.log(tree.find(25));
+// console.log("Finding 25:");
+// console.log(tree.find(25));
 
-console.log("Level order traversal:");
-console.log(tree.levelOrder());
+// console.log("Level order traversal:");
+// console.log(tree.levelOrder());
 
-console.log("In order traversal:");
-console.log(tree.inOrder());
+// console.log("In order traversal:");
+// console.log(tree.inOrder());
 
-console.log("Pre order traversal:");
-console.log(tree.preOrder());
+// console.log("Pre order traversal:");
+// console.log(tree.preOrder());
 
-console.log("Post order traversal:");
-console.log(tree.postOrder());
+// console.log("Post order traversal:");
+// console.log(tree.postOrder());
 
-console.log("Height of root:");
-console.log(tree.height(tree.root));
+// console.log("Height of root:");
+// console.log(tree.height(tree.root));
 
-console.log("Depth of node with content 25:");
-console.log(tree.depth(tree.find(25)));
+// console.log("Depth of node with content 25:");
+// console.log(tree.depth(tree.find(25)));
 
-console.log("Is tree balanced?");
-console.log(tree.isBalanced(tree));
+// console.log("Is tree balanced?");
+// console.log(tree.isBalanced(tree));
 
-console.log("Rebalance tree");
-tree.rebalance(tree);
+// console.log("Rebalance tree");
+// tree.rebalance(tree);
 
-console.log("New balanced tree:");
-tree.prettyPrint(tree.root);
+// console.log("New balanced tree:");
+// tree.prettyPrint(tree.root);
 
-console.log("Is tree balanced?");
-console.log(tree.isBalanced(tree));
+// console.log("Is tree balanced?");
+// console.log(tree.isBalanced(tree));
