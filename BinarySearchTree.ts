@@ -332,12 +332,25 @@ function createBinaryTree(array: number[]): BinaryTree {
   }
 }
 
-let tree = createBinaryTree([3, 7, 25, 9, 2, 67, 54, 16, 33, 125, 57, 42, 32]);
-tree.prettyPrint(tree.root);
+//Driver script to generate an array of 35 numbers between 1-100
+
+let randomArray = () => {
+  let treeArray = [];
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+  for (let i = 0; i < 36; i++) {
+    let driverInt = getRandomInt(1, 100);
+    treeArray.push(driverInt);
+  }
+  return treeArray;
+};
+
+let tree = createBinaryTree(randomArray());
 
 //Testing Tree methods in console
-// console.log("Initial tree:");
-// tree.prettyPrint(tree.root);
+console.log("Initial tree:");
+tree.prettyPrint(tree.root);
 
 // console.log("Inserting entries:");
 // tree.insert(255);
